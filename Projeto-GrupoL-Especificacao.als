@@ -25,22 +25,78 @@ fact {
 	all d: Detento, c: Cela |
 		d in c.detentos <=> d.cela = c
 
-	-- F2: Detento comum só pode ficar em cela comum
-	all d: DetentoComum | detento_comum_em_cela_comum[d]
-
-	-- F3: Detento perigoso só pode ficar em solitária
+	-- F2: Detento perigoso só pode ficar em solitária
 	all d: DetentoPerigoso | detento_perigoso_em_solitaria[d]
 
-	-- F4: Cela comum tem no máximo 4 detentos
+	-- F3: Cela comum tem no máximo 4 detentos
 	all c: CelaComum | capacidade_cela_comum[c]
 
-	-- F5: Solitária tem no máximo 1 detento
+	-- F4: Solitária tem no máximo 1 detento
 	all s: Solitaria | capacidade_solitaria[s]
 
-	-- F6: Toda cela ocupada deve ter exatamente um guarda
+	-- F5: Toda cela ocupada deve ter exatamente um guarda
 	all c: Cela | #c.detentos > 0 => guarda_em_cela_ocupada[c]
 
-	-- F7: Cela vazia não deve ter guarda
+	-- F6: Cela vazia não deve ter guarda
 	all c: Cela | #c.detentos = 0 => cela_vazia_sem_guarda[c]
 
+}
+
+-- PREDICADOS
+
+-- Um detento comum pode ficar em cela comum OU solitária
+pred detento_comum_flexivel[d: DetentoComum] {
+    d.cela in CelaComum or d.cela in Solitaria
+}
+
+-- Um detento perigoso deve estar em uma solitária
+pred detento_perigoso_em_solitaria[d: DetentoPerigoso] {
+	d.cela in Solitaria
+}
+
+-- Cela comum comporta no máximo 4 detentos
+pred capacidade_cela_comum[c: CelaComum] {
+	#c.detentos <= 4
+}
+
+-- Solitária comporta no máximo 1 detento
+pred capacidade_solitaria[s: Solitaria] {
+	#s.detentos <= 1
+}
+
+-- Cela ocupada tem exatamente um guarda responsável
+pred guarda_em_cela_ocupada[c: Cela] {
+	one c.guarda
+
+	-- FORMA 2 (equivalente):
+	-- #c.guarda = 1
+
+	-- FORMA 3 (equivalente):
+	-- some g: Guarda | c.guarda = g
+}
+
+-- Cela vazia não tem guarda alocado
+pred cela_vazia_sem_guarda[c: Cela] {
+	no c.guarda
+
+	-- FORMA 2 (equivalente):
+	-- #c.guarda = 0
+
+	-- FORMA 3 (equivalente):
+	-- c.guarda = none
+}
+
+-- Um guarda é responsável por mais de uma cela
+pred guarda_multiplas_celas[g: Guarda] {
+	#{ c: Cela | c.guarda = g } > 1
+}
+
+-- Uma solitária está com lotação máxima 
+pred solitaria_cheia[s: Solitaria] {
+    #s.detentos = 1
+}
+
+-- Uma cela comum está com lotação máxima
+pred cela_comum_cheia[c: CelaComum] {
+	#c.detentos = 4
 }
