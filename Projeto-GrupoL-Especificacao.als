@@ -100,3 +100,35 @@ pred solitaria_cheia[s: Solitaria] {
 pred cela_comum_cheia[c: CelaComum] {
 	#c.detentos = 4
 }
+
+-- ASSERÇÕES
+
+-- A1: Toda cela comum tem no máximo 4 detentos
+assert adicionar_detento_cela_comum_cheia {
+	all c: CelaComum | #c.detentos <= 4
+}
+check adicionar_detento_cela_comum_cheia for 10
+
+-- A2: Toda solitária tem no máximo 1 detento
+assert adicionar_detento_perigoso_solitaria_cheia {
+	all s: Solitaria | #s.detentos <= 1
+}
+check adicionar_detento_perigoso_solitaria_cheia for 10
+
+-- A3: Nenhum detento perigoso está em cela comum
+assert adicionar_detento_perigoso_cela_comum {
+	no d: DetentoPerigoso | d.cela in CelaComum
+}
+check adicionar_detento_perigoso_cela_comum for 10
+
+-- A4: Cela vazia nunca tem guarda
+assert adicionar_guarda_cela_vazia {
+	all c: Cela | no c.detentos implies no c.guarda
+}
+check adicionar_guarda_cela_vazia for 10
+
+-- A5: Cela ocupada tem exatamente um guarda
+assert adicionar_multiplos_guardas_cela_ocupada {
+	all c: Cela | #c.detentos > 0 implies one c.guarda
+}
+check adicionar_multiplos_guardas_cela_ocupada for 10
