@@ -19,8 +19,10 @@ some sig DetentoComum extends Detento {}
 some sig DetentoPerigoso extends Detento {}
 
 -- REGRAS
+
 fact {
-	-- F1: Bidirecional entre detento e cela
+
+	-- F1: Consistência bidirecional entre detento e cela
 	-- Um detento está em uma cela se e somente se essa cela lista esse detento
 	all d: Detento, c: Cela |
 		d in c.detentos <=> d.cela = c
@@ -35,11 +37,10 @@ fact {
 	all s: Solitaria | capacidade_solitaria[s]
 
 	-- F5: Toda cela ocupada deve ter exatamente um guarda
-	all c: Cela | #c.detentos > 0 => guarda_em_cela_ocupada[c]
+    all c: Cela | #c.detentos > 0 implies one c.guarda
 
 	-- F6: Cela vazia não deve ter guarda
-	all c: Cela | #c.detentos = 0 => cela_vazia_sem_guarda[c]
-
+    all c: Cela | #c.detentos = 0 implies no c.guarda
 }
 
 -- PREDICADOS
@@ -68,10 +69,8 @@ pred capacidade_solitaria[s: Solitaria] {
 pred guarda_em_cela_ocupada[c: Cela] {
 	one c.guarda
 
-	-- FORMA 2 (equivalente):
+	-- FORMAS (equivalentes):
 	-- #c.guarda = 1
-
-	-- FORMA 3 (equivalente):
 	-- some g: Guarda | c.guarda = g
 }
 
@@ -79,10 +78,8 @@ pred guarda_em_cela_ocupada[c: Cela] {
 pred cela_vazia_sem_guarda[c: Cela] {
 	no c.guarda
 
-	-- FORMA 2 (equivalente):
+	-- FORMAS (equivalentes):
 	-- #c.guarda = 0
-
-	-- FORMA 3 (equivalente):
 	-- c.guarda = none
 }
 
