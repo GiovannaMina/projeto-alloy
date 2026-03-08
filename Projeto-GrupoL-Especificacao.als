@@ -18,6 +18,7 @@ abstract sig Detento {
 some sig DetentoComum extends Detento {}
 some sig DetentoPerigoso extends Detento {}
 
+
 -- REGRAS
 
 fact {
@@ -42,6 +43,7 @@ fact {
 	-- F6: Cela vazia não deve ter guarda
     all c: Cela | #c.detentos = 0 implies no c.guarda
 }
+
 
 -- PREDICADOS
 
@@ -98,6 +100,7 @@ pred cela_comum_cheia[c: CelaComum] {
 	#c.detentos = 4
 }
 
+
 -- ASSERÇÕES
 
 -- A1: Toda cela comum tem no máximo 4 detentos
@@ -129,6 +132,14 @@ assert adicionar_multiplos_guardas_cela_ocupada {
 	all c: Cela | #c.detentos > 0 implies one c.guarda
 }
 check adicionar_multiplos_guardas_cela_ocupada for 10
+
+-- A6: Um mesmo detento não pode estar em múltiplas celas
+assert adicionar_dentento_celas_multiplas {
+	no d: Detento | #{c: Cela | d in c.detentos} > 1
+}
+check adicionar_dentento_celas_multiplas for 10
+
+
 -- CENÁRIOS
 
 -- EXISTENTES
