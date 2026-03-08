@@ -268,6 +268,7 @@ pred cela_com_multiplos_guardas {
 }
 run cela_com_multiplos_guardas
 
+-- C6: Simula detento foragido
 pred detento_sem_cela {
     some d: Detento | no c: Cela | d in c.detentos
 
