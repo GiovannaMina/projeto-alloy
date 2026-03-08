@@ -62,7 +62,7 @@ Para executar e visualizar os modelos gerados por este projeto, siga os passos a
 * Giovanna Farias Miná
 * Laís Ferreira Lira
 * Natalia Rodrigues da Silva
-* Maria Luisa
+* Maria Luisa Costa Carvalho
 
 ## Componente Curricular
 * Disciplina: Lógica para Computação
