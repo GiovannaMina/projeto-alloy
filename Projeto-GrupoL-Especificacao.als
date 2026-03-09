@@ -277,6 +277,7 @@ pred detento_sem_cela {
     -- FORMA 2 (equivalente):
     -- some d: Detento | d !in Cela.detentos
 }
+run detento_sem_cela
 
 -- C7: Simula um preso flexivel na solitaria.
 pred solitaria_com_um_detento_flexivel{
@@ -286,4 +287,3 @@ pred solitaria_com_um_detento_flexivel{
     -- some s: Solitaria | some (s.detentos & DetentoComum)
 }
 run solitaria_com_um_detento_flexivel
-run detento_sem_cela
