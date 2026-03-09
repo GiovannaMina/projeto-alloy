@@ -142,7 +142,7 @@ check adicionar_dentento_celas_multiplas for 10
 
 -- CENÁRIOS
 
--- EXISTENTES
+-- EXISTENTES, ou seja, quando rodar, irão encontrar instâncias
 -- C1: Simula um presídio completo. 
 pred simulacao_presidio_completo {
     some g: Guarda | guarda_multiplas_celas[g]
@@ -177,16 +177,7 @@ pred celaComum_com_um_detento{
 }
 run celaComum_com_um_detento
 
--- C4: Simula um preso flexivel na solitaria.
-pred solitaria_com_um_detento_flexivel{
-	some s: Solitaria, d: DetentoComum|
-		d in s.detentos
-	-- FORMA 2 (equivalente):
-    -- some s: Solitaria | some (s.detentos & DetentoComum)
-}
-run solitaria_com_um_detento_flexivel
-
--- C5: Simula uma cela vazia sem guarda.
+-- C4: Simula uma cela vazia sem guarda.
 pred cela_Vazia_sem_guarda{
 	some c: Cela | cela_vazia_sem_guarda[c]
     -- FORMA 2 (equivalente):
@@ -196,7 +187,7 @@ pred cela_Vazia_sem_guarda{
 }
 run cela_Vazia_sem_guarda
 
--- C6: Simula um guarda em multiplas celas.
+-- C5: Simula um guarda em multiplas celas.
 pred guarda_em_multiplas_celas{
 	one g: Guarda | guarda_multiplas_celas[g]
 
@@ -208,7 +199,7 @@ pred guarda_em_multiplas_celas{
 }
 run guarda_em_multiplas_celas
 
--- C7: Simula cela comum com capacidade maxima
+-- C6: Simula cela comum com capacidade maxima
 pred cela_capacidade_maxima{
 	one c: CelaComum | cela_comum_cheia[c]
 
@@ -221,7 +212,7 @@ pred cela_capacidade_maxima{
 }
 run cela_capacidade_maxima for 5
 
--- C8: Simula cela nao cheia
+-- C7: Simula cela nao cheia
 pred cela_comum_vagas_sobrando {
     some c: CelaComum | some c.detentos and not cela_comum_cheia[c]
 
@@ -231,7 +222,7 @@ pred cela_comum_vagas_sobrando {
 run cela_comum_vagas_sobrando
 
 
--- INEXISTENTES
+-- INEXISTENTES, ou seja, quando rodar, não irão encontrar instâncias
 -- C1: Simula uma cela com 5 detentos.
 pred cela_comum_superlotada{
 	some c: CelaComum | #c.detentos > 4
@@ -286,4 +277,13 @@ pred detento_sem_cela {
     -- FORMA 2 (equivalente):
     -- some d: Detento | d !in Cela.detentos
 }
+
+-- C7: Simula um preso flexivel na solitaria.
+pred solitaria_com_um_detento_flexivel{
+	some s: Solitaria, d: DetentoComum|
+		d in s.detentos
+	-- FORMA 2 (equivalente):
+    -- some s: Solitaria | some (s.detentos & DetentoComum)
+}
+run solitaria_com_um_detento_flexivel
 run detento_sem_cela
