@@ -47,9 +47,9 @@ fact {
 
 -- PREDICADOS
 
--- Um detento comum pode ficar em cela comum OU solitária
-pred detento_comum_flexivel[d: DetentoComum] {
-    d.cela in CelaComum or d.cela in Solitaria
+-- Um detento comum pode ficar em cela comum
+pred detento_comum_em_cela_comum[d: DetentoComum] {
+    d.cela in CelaComum
 }
 
 -- Um detento perigoso deve estar em uma solitária
