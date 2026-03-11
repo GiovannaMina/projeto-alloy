@@ -142,6 +142,12 @@ assert adicionar_dentento_celas_multiplas {
 }
 check adicionar_dentento_celas_multiplas for 10
 
+-- A7: Nenhum detento comum está em solitária
+assert detento_comum_apenas_em_cela_comum {
+	no d: DetentoComum | d.cela in Solitaria
+}
+check detento_comum_apenas_em_cela_comum for 10
+
 
 -- CENÁRIOS
 
@@ -157,7 +163,7 @@ pred solitaria_com_um_detento{
 		d in s.detentos
 
     
-    -- FORMA 2 (Equivalente):
+    -- FORMA (Equivalente):
     --some s: Solitaria | #s.detentos = 1
 }
 run solitaria_com_um_detento
@@ -168,7 +174,7 @@ pred celaComum_com_um_detento{
 	some c: CelaComum, d: Detento|
 		d in c.detentos
 
-	-- FORMA 2 (equivalente):
+	-- FORMA (equivalente):
     --some d: Detento | d.cela in CelaComum
 }
 run celaComum_com_um_detento
@@ -176,7 +182,7 @@ run celaComum_com_um_detento
 -- C4: Simula uma cela vazia sem guarda.
 pred cela_Vazia_sem_guarda{
 	some c: Cela | cela_vazia_sem_guarda[c]
-    -- FORMA 2 (equivalente):
+    -- FORMA (equivalente):
     --some c: Cela | cela_vazia_sem_guarda[c]
    
 
@@ -194,7 +200,7 @@ run guarda_em_multiplas_celas
 pred cela_capacidade_maxima{
 	one c: CelaComum | cela_comum_cheia[c]
 
-    -- FORMA 2 (equivalente):
+    -- FORMA (equivalente):
     --some c: CelaComum | #c.detentos = 3
 
 }
@@ -204,7 +210,7 @@ run cela_capacidade_maxima for 5
 pred cela_comum_vagas_sobrando {
     some c: CelaComum | some c.detentos and not cela_comum_cheia[c]
 
-    -- FORMA 2 (equivalente):
+    -- FORMA (equivalente):
     --some c: CelaComum | #c.detentos > 0 and #c.detentos < 3
 }
 run cela_comum_vagas_sobrando
@@ -221,7 +227,7 @@ run cela_comum_superlotada
 pred solitaria_superlotada{
     some s: Solitaria | #s.detentos > 1
  
-    -- FORMA 2 (equivalente):
+    -- FORMA (equivalente):
     --some s: Solitaria, d1, d2: Detento | d1 in s.detentos and d2 in s.detentos and d1 != d2
 }
 run solitaria_superlotada
@@ -231,7 +237,7 @@ pred detento_perigoso_em_cela_comum{
 	some c: CelaComum, d: DetentoPerigoso |
 		d in c.detentos
 
-    -- FORMA 2 (equivalente):
+    -- FORMA (equivalente):
     --some (CelaComum.detentos & DetentoPerigoso)
 }
 run detento_perigoso_em_cela_comum
@@ -248,7 +254,7 @@ run guarda_sem_cela
 pred cela_com_multiplos_guardas {
     some c: Cela | #c.guarda > 1
 
-    -- FORMA 2 (equivalente):
+    -- FORMA (equivalente):
     --some c: Cela, g1, g2: Guarda | g1 in c.guarda and g2 in c.guarda and g1 != g2
 }
 run cela_com_multiplos_guardas
@@ -257,7 +263,7 @@ run cela_com_multiplos_guardas
 pred detento_sem_cela {
     some d: Detento | no c: Cela | d in c.detentos
 
-    -- FORMA 2 (equivalente):
+    -- FORMA (equivalente):
     --some d: Detento | d !in Cela.detentos
 }
 run detento_sem_cela
@@ -266,7 +272,7 @@ run detento_sem_cela
 pred solitaria_com_um_detento_flexivel{
 	some s: Solitaria, d: DetentoComum|
 		d in s.detentos
-	-- FORMA 2 (equivalente):
+	-- FORMA (equivalente):
     --some s: Solitaria | some (s.detentos & DetentoComum)
 }
 run solitaria_com_um_detento_flexivel
